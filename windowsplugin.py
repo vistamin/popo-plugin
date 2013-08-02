@@ -17,15 +17,12 @@ def find_windows(class_name, window_name=None):
     print class_name
     try:
         hwnd = win32gui.FindWindow(class_name, window_name) 
-        print "hwnd1 = %x" % hwnd
         while hwnd:
             try:
                 hwnds.append(hwnd) 
                 hwnd = win32gui.FindWindowEx(None, hwnd, class_name, window_name)
-                print "hwnd2 = %x" % hwnd
             except:
                 hwnd = 0
-                print u"查询结束"
         return hwnds
     except:
         return hwnds 
