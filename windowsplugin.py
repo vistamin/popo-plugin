@@ -9,22 +9,30 @@ import time, httplib, urllib
 from pprint import pprint
 import win32gui, traceback
 
-LINUX_HOST = "10.8.0.38"
+LINUX_HOST = "192.168.150.108"
 PORT = 34567
 
 def find_windows(class_name, window_name=None):
     hwnds = []
+    print class_name
     try:
         hwnd = win32gui.FindWindow(class_name, window_name) 
+        print "hwnd1 = %x" % hwnd
+        while hwnd:
+            try:
+                hwnds.append(hwnd) 
+                hwnd = win32gui.FindWindowEx(None, hwnd, class_name, window_name)
+                print "hwnd2 = %x" % hwnd
+            except:
+                hwnd = 0
+                print u"查询结束"
+        return hwnds
     except:
         return hwnds 
-    while hwnd:
-        hwnds.append(hwnd) 
-        hwnd = win32gui.FindWindowEx(None, hwnd, class_name, window_name)
-    return hwnds
 
 def print_hwnds(hwnds):
     for hwnd in hwnds:
+        print "hwnd1 = %x" % hwnd
         print 'hwnd:', hwnd, 'title:', win32gui.GetWindowText(hwnd)
 
 def notify_linux(host, title, port=80): 
@@ -45,17 +53,20 @@ while True:
     window_names = []
     allow_team_names = [
                         u"某某兴趣小组",
+                        u"Hello - 兴趣组",
                         ]
 
     print '-' * 40
     hwnds = set()
     for name in class_names:
         hwnds |= set(find_windows(name))
-    for name in window_names:
-        hwnds |= set(find_windows(None, name.encode('gbk')))
+    #for name in window_names:
+    #    hwnds |= set(find_windows(None, name.encode('utf8')))
 
     need_notifies = hwnds - last_hwnds
     print_hwnds(need_notifies)
+
+    last_hwnds = hwnds
 
     for hwnd in need_notifies:
         title = win32gui.GetWindowText(hwnd)
@@ -72,5 +83,4 @@ while True:
                     print rep.read().decode('utf8').encode('gbk')
 
     last_hwnds = hwnds
-
     time.sleep(1)
