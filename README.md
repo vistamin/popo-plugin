@@ -13,4 +13,6 @@ Python实现的网易泡泡外挂，用于通知虚拟机外的Linux
 
 4.修改windowsplugin.py文件，将LINUX_HOST后的ip地址改为你本机linux的ip地址
 
-5.双击运行windowsplugin.py
+5.在allow_team_names中添加想要收到消息通知的兴趣组
+
+6.双击运行windowsplugin.py
