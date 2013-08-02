@@ -14,7 +14,6 @@ PORT = 34567
 
 def find_windows(class_name, window_name=None):
     hwnds = []
-    print class_name
     try:
         hwnd = win32gui.FindWindow(class_name, window_name) 
         while hwnd:
