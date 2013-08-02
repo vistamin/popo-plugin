@@ -32,7 +32,6 @@ def find_windows(class_name, window_name=None):
 
 def print_hwnds(hwnds):
     for hwnd in hwnds:
-        print "hwnd1 = %x" % hwnd
         print 'hwnd:', hwnd, 'title:', win32gui.GetWindowText(hwnd)
 
 def notify_linux(host, title, port=80): 
